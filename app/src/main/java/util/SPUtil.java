@@ -20,7 +20,7 @@ public class SPUtil {
     }
     public  static  String getString(String name){
         SharedPreferences user = MyApplication.getApp().getSharedPreferences("user", Context.MODE_PRIVATE);
-        String string = user.getString(name, "");
+        String string = user.getString(name,"");
         return string;
     }
 

@@ -1,7 +1,11 @@
 package com.guaju.retrofittest.http;
 
+import android.widget.Toast;
+
+import com.guaju.retrofittest.app.MyApplication;
 import com.guaju.retrofittest.model.bean.LoginBean;
 import com.guaju.retrofittest.model.bean.UploadAvatarBean;
+import com.guaju.retrofittest.model.bean.UploadGoodsBean;
 
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
@@ -61,6 +65,7 @@ public class RetrofitHelper {
         //先拿到token值
         String token="";
         token= SPUtil.getString("token");
+        Toast.makeText(MyApplication.getApp(), token, Toast.LENGTH_SHORT).show();
         Observable<UploadAvatarBean> uploadAvatarBeanObservable = goodsServices.upLoadAvatar(token, rb);
         uploadAvatarBeanObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -78,6 +83,21 @@ public class RetrofitHelper {
     //当我获取数据成功后要做什么处理
     public interface OnSuccessListener{
         void onSuccess(Object o);
+    }
+
+    //上传商品
+    public void uploadGoods(RequestBody[] requestBodies,final OnSuccessListener listener){
+        String token = SPUtil.getString("token");
+        Toast.makeText(MyApplication.getApp(), token, Toast.LENGTH_SHORT).show();
+        Observable<UploadGoodsBean> uploadGoodsBeanObservable = goodsServices.uploadGoods2("iphoneX", "cellphone", "1888", "13888888888", token, requestBodies);
+        uploadGoodsBeanObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<UploadGoodsBean>() {
+                    @Override
+                    public void call(UploadGoodsBean uploadGoodsBean) {
+                          listener.onSuccess(uploadGoodsBean);
+                    }
+                });
     }
 
 }

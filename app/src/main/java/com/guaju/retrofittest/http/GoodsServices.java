@@ -2,6 +2,7 @@ package com.guaju.retrofittest.http;
 
 import com.guaju.retrofittest.model.bean.LoginBean;
 import com.guaju.retrofittest.model.bean.UploadAvatarBean;
+import com.guaju.retrofittest.model.bean.UploadGoodsBean;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Multipart;
@@ -20,16 +21,36 @@ public interface GoodsServices {
     @POST("common/login.json")
     Observable<LoginBean> login(@Query("username") String username,@Query("password") String password);
     //2、上传头像
+
     @Multipart
     @POST("user/upload.json")
     Observable<UploadAvatarBean> upLoadAvatar(@Query("token") String token, @Part("photo\"; filename=\"test.jpg\"")RequestBody request);
 
-//    {status:1,info:"成功"}
-     //3、获取个人信息
-//    @POST("app/user/info.json")
-    
+    //3、发布商品
+//    title       必选
+//    description    必选
+//    price             必选
+//    mobile               必选
+//    qq
+//    wechat
+//    email
+//    photo[]  必选
+//    token    必选
+//    @Multipart
+//    @POST("app/item/issue.json")
+//    Observable<UploadGoodsBean> uploadGoods(@Query("title") String title,
+//                                            @Query("description") String description,
+//                                            @Query("price") String price,
+//                                            @Query("mobile") String mobile,
+//                                            @Query("token") String token,
+//                                            @PartMap() HashMap<String, RequestBody> map);
 
-    //4、发布商品
-
-
+    @Multipart
+    @POST("app/item/issue.json")
+    Observable<UploadGoodsBean> uploadGoods2(@Part("title") String title,
+                                             @Part("description") String description,
+                                             @Part("price") String price,
+                                             @Part("mobile") String mobile,
+                                             @Part("token") String token,
+                                             @Part("photo\"; filename=\"test.jpg\"") RequestBody[] requestBodies);
 }
